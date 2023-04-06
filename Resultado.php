@@ -44,7 +44,7 @@
             margin-top: 200px;
             color: white;
              }
-        h1{
+        h1 {
             text-align: center;
             margin-bottom: 20px;
         }
