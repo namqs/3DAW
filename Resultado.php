@@ -24,7 +24,7 @@
                 $resultado = $v1 * $v2;
                 break;
             default:
-                $resultado = $v1 * $v1;
+                $resultado = sqrt($v1);
         }
     }
 ?>
