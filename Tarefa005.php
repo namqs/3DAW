@@ -42,7 +42,7 @@ if(!file_exists("disciplinas.txt"))
             color: white;
             background-color: 
              }
-        h1{
+        h1 {
             text-align: center;
             margin-bottom: 20px;
         }
