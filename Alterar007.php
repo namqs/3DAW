@@ -4,7 +4,7 @@ $cpfBuscar = "";
 $cpf = "";
 $mat = "";
 $linha = "";
-
+/*
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
    $nome = $_POST["nome"];
@@ -15,6 +15,25 @@ if(!file_exists("dado2s.txt")) // se nao existir o novo arq
 {
    $arqDisc = fopen("dados2.txt", "w") or die("erro ao criar arquivo"); //crie o novo arq
    $linha = "nome; cpf;matricula\n";
+
+PROF SOLUTION:
+while(!feof($arqDisc))
+{
+    $linha = explode(";", fgets($arqDisc));
+    if ($linha [1]== $cpf2)
+    {
+        $nome = $linha[0];
+        $cpf = $linha[1];
+        $mat = $linha[2];
+        break;
+    }
+    else
+    {
+        $txt = $linha;
+    }
+}
+
+
    if($) //SE O CPF NAO FOR IGUAL...
    fwrite($arqDisc, $linha);
    fclose($arqDisc);
@@ -23,7 +42,7 @@ if(!file_exists("dado2s.txt")) // se nao existir o novo arq
    $linha = $nome . ";" . $cpf . ";" . $mat . "\n";
    fwrite($arqDisc,$linha);
    fclose($arqDisc);
-}
+}*/
 
 
 ?>
@@ -63,6 +82,8 @@ if(!file_exists("dado2s.txt")) // se nao existir o novo arq
        <br>
        <input size="30" type="text" name="cpfBuscar">
        <br>
+       <br>
+       <input type="submit" value="Buscar">
        <br>
        *Dados nova versão:
        <br>
