@@ -63,7 +63,7 @@ if(!file_exists("dados.txt"))
        <input type="submit" value="Cadastrar">
        <br>
        <br>
-       <a href='Home.html'><button>Voltar pro Menu</button></a>
+       <button><a href="Home.html">Voltar pro Menu</a></button>
      </form>
     </fieldset>
     <br>
