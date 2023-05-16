@@ -43,6 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // requisitando as infos e salvando
                                b)Resposta b" minlength="20"></textarea>
         <br>
         <button type="submit">Enviar</button>
+         <br>
+        <br>
+        <button><a href="Home.html">Voltar</a></button>
     </form>
 </body>
 </html>
