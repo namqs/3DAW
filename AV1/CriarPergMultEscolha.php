@@ -1,19 +1,19 @@
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { // requisitando as infos e salvando nas variaveis
     $pergunta = $_POST['pergunta'];
     $respostas = $_POST['respostas'];
 
-    $perguntaObj = [
+    $perguntaObj = [ //cria objeto com a pergunta e as respostas
         'pergunta' => $pergunta,
-        'opcoes' => explode("\n", $respostas),
+        'opcoes' => explode("\n", $respostas), //transforma em array
         'resposta' => 0 // Índice da resposta correta na lista de opções (começando em 0)
-    ];
+    ]; //
 
-    $perguntas = [];
+    $perguntas = []; //esvaziando
 
-    if (file_exists('perguntas.json')) {
-        $perguntas = json_decode(file_get_contents('perguntas.json'), true);
+    if (file_exists('perguntas.json')) { //se o arquivo existir
+        $perguntas = json_decode(file_get_contents('perguntas.json'), true); //le o arquivo e salva o conteudo na variavel
     }
 
     $perguntas[] = $perguntaObj;
