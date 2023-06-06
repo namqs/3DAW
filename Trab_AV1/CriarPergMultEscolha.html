@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Criar Pergunta Múltipla Escolha</title>
+    <script>
+        function enviarFormulario() {
+            var pergunta = document.querySelector('input[name="pergunta"]').value;
+            var respostas = document.querySelector('textarea[name="respostas"]').value;
+
+            var perguntaObj = {
+                pergunta: pergunta,
+                respostas: respostas.split("\n"),
+                resposta: 0
+            };
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log(xhr.responseText);
+                        alert('Pergunta adicionada com sucesso!');
+                    } else {
+                        console.error('Ocorreu um erro na requisição: ' + xhr.status);
+                    }
+                }
+            };
+
+            var dados = 'pergunta=' + encodeURIComponent(pergunta) + '&respostas=' + encodeURIComponent(respostas);
+            xhr.open('GET', 'CriarPergMultEscolha.php?' + dados, true);
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <form>
+        <label>Digite a pergunta:</label>
+        <br>
+        <input type="text" name="pergunta" size="20px">
+        <br>
+        <br>
+        <label>Respostas</label>
+        <br>
+        <textarea name="respostas" placeholder="a)Resposta a (Opção Correta)
+                               b)Resposta b" minlength="20"></textarea>
+        <br>
+        <button type="button" onclick="enviarFormulario()">Enviar</button>
+        <br>
+        <br>
+        <button><a href="Home.html">Voltar</a></button>
+    </form>
+</body>
+</html>

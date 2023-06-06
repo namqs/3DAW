@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Excluir Pergunta</title>
+    <script>
+        function excluirPergunta() {
+            var perguntaSelecionada = document.querySelector('select[name="pergunta"]').value;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log(xhr.responseText);
+                        alert('Pergunta excluída com sucesso!');
+                    } else {
+                        console.error('Ocorreu um erro na requisição: ' + xhr.status);
+                    }
+                }
+            };
+            xhr.open('GET', 'Excluir.php?pergunta=' + encodeURIComponent(perguntaSelecionada), true);
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <form>
+        <label>Selecione a pergunta que deseja excluir:</label>
+        <br>
+        <select name="pergunta">
+            <?php foreach ($perguntas as $pergunta) : ?>
+                <option value="<?php echo $pergunta['pergunta']; ?>"><?php echo $pergunta['pergunta']; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <br>
+        <br>
+        <button type="button" onclick="excluirPergunta()">Excluir</button>
+    </form>
+    <br>
+    <p><?php echo $mensagem; ?></p>
+    <br>
+    <button><a href="Home.html">Voltar</a></button>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Perguntas e Respostas</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Perguntas de Múltipla Escolha</h2>
+    <table id="perguntasMultiplaEscolha">
+        <thead>
+            <tr>
+                <th>Pergunta</th>
+                <th>Respostas</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2>Perguntas Discursivas</h2>
+    <table id="perguntasDiscursivas">
+        <thead>
+            <tr>
+                <th>Pergunta</th>
+                <th>Resposta</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
+    <br>
+    <button><a href="Home.html">Voltar</a></button>
+
+    <script>
+        function listarPerguntas() {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var perguntas = JSON.parse(xhr.responseText);
+                    exibirPerguntas(perguntas);
+                }
+            };
+
+            xhr.open('GET', 'ListarTodasPerguntas.php', true);
+
+            xhr.send();
+        }
+
+        function exibirPerguntas(perguntas) {
+            var perguntasMultiplaEscolhaTable = document.getElementById('perguntasMultiplaEscolha');
+            var perguntasDiscursivasTable = document.getElementById('perguntasDiscursivas');
+
+            var perguntasMultiplaEscolhaTbody = perguntasMultiplaEscolhaTable.getElementsByTagName('tbody')[0];
+            perguntasMultiplaEscolhaTbody.innerHTML = '';
+            for (var i = 0; i < perguntas.perguntasMultiplaEscolha.length; i++) {
+                var pergunta = perguntas.perguntasMultiplaEscolha[i];
+                var opcoes = pergunta.opcoes.join('<br>');
+
+                var tr = document.createElement('tr');
+                var tdPergunta = document.createElement('td');
+                var tdOpcoes = document.createElement('td');
+
+                tdPergunta.textContent = pergunta.pergunta;
+                tdOpcoes.innerHTML = opcoes;
+
+                tr.appendChild(tdPergunta);
+                tr.appendChild(tdOpcoes);
+
+                perguntasMultiplaEscolhaTbody.appendChild(tr);
+            }
+            var perguntasDiscursivasTbody = perguntasDiscursivasTable.getElementsByTagName('tbody')[0];
+            perguntasDiscursivasTbody.innerHTML = '';
+            for (var j = 0; j < perguntas.perguntasDiscursivas.length; j++) {
+                var perguntaDiscursiva = perguntas.perguntasDiscursivas[j];
+
+                var tr = document.createElement('tr');
+                var tdPergunta = document.createElement('td');
+                var tdResposta = document.createElement('td');
+
+                tdPergunta.textContent = perguntaDiscursiva.pergunta;
+                tdResposta.textContent = perguntaDiscursiva.resposta;
+
+                tr.appendChild(tdPergunta);
+                tr.appendChild(tdResposta);
+
+                perguntasDiscursivasTbody.appendChild(tr);
+            }
+        }
+        listarPerguntas();
+    </script>
+</body>
+</html>

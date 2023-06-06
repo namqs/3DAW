@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Alterar Pergunta de Múltipla Escolha</title>
+    <script>
+        function enviarRequisicao() {
+            var perguntaSelecionada = document.getElementById('pergunta').value;
+            var novasRespostas = document.getElementById('novaResposta').value;
+
+            var url = 'AlterarPergMultEscolha.php?pergunta=' + encodeURIComponent(perguntaSelecionada) +
+                      '&novaResposta=' + encodeURIComponent(novasRespostas);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('mensagem').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <?php
+    // Carrega o conteúdo do arquivo JSON
+    $jsonFile = 'perguntas.json';
+    $jsonData = file_get_contents($jsonFile);
+
+    // Decodifica o conteúdo JSON em um array associativo
+    $perguntas = json_decode($jsonData, true);
+    ?>
+    <form>
+        <label for="pergunta">Selecione uma pergunta:</label>
+        <select name="pergunta" id="pergunta">
+            <?php foreach ($perguntas as $indice => $pergunta) { ?>
+                <option value="<?php echo $indice; ?>"><?php echo $pergunta['pergunta']; ?></option>
+            <?php } ?>
+        </select>
+
+        <br>
+
+        <label for="novaResposta">Novas respostas (separadas por vírgula):</label>
+        <textarea name="novaResposta" id="novaResposta"></textarea>
+
+        <br>
+
+        <input type="button" value="Atualizar Respostas" onclick="enviarRequisicao()">
+    </form>
+
+    <p id="mensagem"></p>
+    <button><a href="Home.html">Voltar</a></button>
+</body>
+</html>

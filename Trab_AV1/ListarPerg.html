@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Exibir Pergunta Específica</title>
+</head>
+<body>
+    <select id="pergunta">
+        <?php
+        $perguntasMultiplaEscolha = [];
+        $perguntasDiscursivas = [];
+
+        if (file_exists('perguntas.json')) {
+            $perguntasMultiplaEscolha = json_decode(file_get_contents('perguntas.json'), true);
+        }
+
+        if (file_exists('perguntas_discursivas.json')) {
+            $perguntasDiscursivas = json_decode(file_get_contents('perguntas_discursivas.json'), true);
+        }
+
+        foreach ($perguntasMultiplaEscolha as $pergunta) {
+            echo "<option value='" . $pergunta['pergunta'] . "'>" . $pergunta['pergunta'] . "</option>";
+        }
+
+        foreach ($perguntasDiscursivas as $pergunta) {
+            echo "<option value='" . $pergunta['pergunta'] . "'>" . $pergunta['pergunta'] . "</option>";
+        }
+        ?>
+    </select>
+    <br>
+    <br>
+    <button onclick="exibirPergunta()">Exibir</button>
+    <br>
+    <br>
+    <div id="resposta"></div>
+
+    <script>
+        function exibirPergunta() {
+            var perguntaSelecionada = document.getElementById('pergunta').value;
+            var url = 'ListarPerg.php?pergunta=' + encodeURIComponent(perguntaSelecionada);
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('resposta').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
+    </script>
+
+    <br>
+    <button><a href="Home.html">Voltar</a></button>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Alterar Pergunta Discursiva</title>
+    <script>
+        function alterarResposta() {
+            var perguntaSelecionada = document.querySelector('select[name="pergunta"]').value;
+            var novaResposta = document.querySelector('textarea[name="novaResposta"]').value;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log(xhr.responseText);
+                        alert('Resposta atualizada com sucesso!');
+                    } else {
+                        console.error('Ocorreu um erro na requisição: ' + xhr.status);
+                    }
+                }
+            };
+            xhr.open('GET', 'AlterarPergDiscur.php?pergunta=' + encodeURIComponent(perguntaSelecionada) + '&novaResposta=' + encodeURIComponent(novaResposta), true);
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <?php
+    // Carrega o conteúdo do arquivo JSON
+    $jsonFile = 'perguntas_discursivas.json';
+    $jsonData = file_get_contents($jsonFile);
+
+    // Decodifica o conteúdo JSON em um array associativo
+    $perguntas = json_decode($jsonData, true);
+    ?>
+
+    <form>
+        <label for="pergunta">Selecione uma pergunta:</label>
+        <select name="pergunta" id="pergunta">
+            <?php foreach ($perguntas as $indice => $pergunta) { ?>
+                <option value="<?php echo $indice; ?>"><?php echo $pergunta['pergunta']; ?></option>
+            <?php } ?>
+        </select>
+
+        <br>
+
+        <label for="novaResposta">Nova resposta:</label>
+        <textarea name="novaResposta" id="novaResposta"></textarea>
+
+        <br>
+
+        <button type="button" onclick="alterarResposta()">Atualizar Resposta</button>
+    </form>
+
+    <button><a href="Home.html">Voltar</a></button>
+</body>
+</html>
