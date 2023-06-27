@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Alterar Pergunta de Múltipla Escolha</title>
+    <script>
+        function enviarRequisicao() {
+            var perguntaSelecionada = document.getElementById('pergunta').value;
+            var novasRespostas = document.getElementById('novaResposta').value;
+
+            var url = 'AlterarPergMultEscolha.php?pergunta=' + encodeURIComponent(perguntaSelecionada) +
+                      '&novaResposta=' + encodeURIComponent(novasRespostas);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('mensagem').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <?php
+    $conexao = mysqli_connect('localhost', 'root', '', '3daw');
+
+    if ($conexao) 
+    {
+        $query = "SELECT * FROM perguntas";
+        $resultado = mysqli_query($conexao, $query);
+
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
+            $perguntas = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
+        }
+    } else {
+        echo "Erro na conexão com o banco de dados: " . mysqli_connect_error();
+    }
+    ?>
+    <form>
+        <label for="pergunta">Selecione uma pergunta:</label>
+        <select name="pergunta" id="pergunta">
+            <?php foreach ($perguntas as $pergunta) { ?>
+                <option value="<?php echo $pergunta['id']; ?>"><?php echo $pergunta['pergunta']; ?></option>
+            <?php } ?>
+        </select>
+
+        <br>
+
+        <label for="novaResposta">Novas respostas (separadas por vírgula):</label>
+        <textarea name="novaResposta" id="novaResposta"></textarea>
+
+        <br>
+
+        <input type="button" value="Atualizar Respostas" onclick="enviarRequisicao()">
+    </form>
+
+    <p id="mensagem"></p>
+    <button><a href="Home.html">Voltar</a></button>
+</body>
+</html>

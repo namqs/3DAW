@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Alterar Pergunta Discursiva</title>
+    <script>
+        function alterarResposta() {
+            var perguntaSelecionada = document.querySelector('select[name="pergunta"]').value;
+            var novaResposta = document.querySelector('textarea[name="novaResposta"]').value;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log(xhr.responseText);
+                        alert('Resposta atualizada com sucesso!');
+                    } else {
+                        console.error('Ocorreu um erro na requisição: ' + xhr.status);
+                    }
+                }
+            };
+            xhr.open('GET', 'AlterarPergDiscur.php?pergunta=' + encodeURIComponent(perguntaSelecionada) + '&novaResposta=' + encodeURIComponent(novaResposta), true);
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <form>
+        <label for="pergunta">Selecione uma pergunta:</label>
+        <select name="pergunta" id="pergunta">
+            <?php
+            $conexao = mysqli_connect('localhost', 'root', '', '3daw');
+
+            if ($conexao) 
+            {
+                $consulta = "SELECT id, pergunta FROM perguntas_discursivas";
+                $resultado = mysqli_query($conexao, $consulta);
+
+                if ($resultado && mysqli_num_rows($resultado) > 0) 
+                {
+                    while ($row = mysqli_fetch_assoc($resultado)) 
+                    {
+                        $perguntaId = $row['id'];
+                        $perguntaTexto = $row['pergunta'];
+                        echo "<option value='$perguntaId'>$perguntaTexto</option>";
+                    }
+                }
+                mysqli_close($conexao);
+            }
+            ?>
+        </select>
+        <br>
+        <label for="novaResposta">Nova resposta:</label>
+        <textarea name="novaResposta" id="novaResposta"></textarea>
+        <br>
+        <button type="button" onclick="alterarResposta()">Atualizar Resposta</button>
+    </form>
+    <button><a href="Home.html">Voltar</a></button>
+</body>
+</html>

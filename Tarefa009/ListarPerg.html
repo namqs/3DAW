@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Exibir Pergunta Específica</title>
+</head>
+<body>
+    <select id="pergunta">
+        <?php
+        $conexao = mysqli_connect('localhost', 'root', '', '3daw');
+
+        if ($conexao) {
+            $query = "SELECT * FROM perguntas";
+            $resultado = mysqli_query($conexao, $query);
+
+            if ($resultado && mysqli_num_rows($resultado) > 0) {
+                while ($pergunta = mysqli_fetch_assoc($resultado)) {
+                    echo '<option value="' . $pergunta['id'] . '">' . $pergunta['pergunta'] . '</option>';
+                }
+            } else {
+                echo '<option value="">Nenhuma pergunta encontrada</option>';
+            }
+
+            mysqli_close($conexao);
+        } else {
+            echo '<option value="">Erro na conexão com o banco de dados</option>';
+        }
+        ?>
+    </select>
+    <br>
+    <br>
+    <button onclick="exibirPergunta()">Exibir</button>
+    <br>
+    <br>
+    <div id="resposta"></div>
+
+    <script>
+        function exibirPergunta() {
+            var perguntaSelecionada = document.getElementById('pergunta').value;
+            var url = 'ListarPerg.php?pergunta=' + encodeURIComponent(perguntaSelecionada);
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('resposta').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
+    </script>
+
+    <br>
+    <button><a href="Home.html">Voltar</a></button>
+</body>
+</html>
