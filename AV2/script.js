@@ -80,33 +80,34 @@ function enviarForm1()
 
  //Funções da funcionalidade de Alterar
  function enviarForm() {
-  let cpf = document.getElementById("cpf").value;
-  let salaAlterada = document.getElementById("salaAlterada").value;
+    let cpf = document.getElementById("cpf").value;
+    let salaAlterada = document.getElementById("salaAlterada").value;
 
-  let xmlHttp = new XMLHttpRequest();
-  xmlHttp.open("GET", "http://localhost/3DAW/TrabalhoCopa/alterarSelecao.php?cpf=" + cpf + "&sala=" + salaAlterada);
-  xmlHttp.send();
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "http://localhost/3DAW/AV2/Alterar.php?cpf=" + cpf + "&sala=" + salaAlterada);
+    xmlHttp.send();
 
-  location.reload();
+    location.reload();
 }
 
-function buscarSelecao() {
-  let cpf = document.getElementById("cpf").value;
-  let xmlHttp = new XMLHttpRequest();
-  xmlHttp.onreadystatechange = function () {
-    console.log("mudou status: " + this.readyState);
-    if (this.readyState == 4 && this.status == 200) {
-      let obj = this.responseText;
+function buscar() {
+    let cpf = document.getElementById("cpf").value;
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        console.log("mudou status: " + this.readyState);
+        if (this.readyState == 4 && this.status == 200) {
+            let obj = this.responseText;
 
-      document.getElementById("salaAlterada").value = obj;
+            document.getElementById("salaAlterada").value = obj;
 
-      let formAlt = document.getElementById("formAlterar");
-      formAlt.style.display = "block";
-    }
-  };
-  xmlHttp.open("GET", "http://localhost/3DAW/AV2/Alterar.php?cpf=" + cpf);
-  xmlHttp.send();
+            let formAlt = document.getElementById("formAlterar");
+            formAlt.style.display = "block";
+        }
+    };
+    xmlHttp.open("GET", "http://localhost/3DAW/AV2/Buscar.php?cpf=" + cpf);
+    xmlHttp.send();
 }
+
 
   
 
