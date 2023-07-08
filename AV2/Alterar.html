@@ -13,6 +13,15 @@
     <p>Digite o cpf do candidato a ser mudado de sala: </p>
     <input type="number">
     <input type="submit"  onclick="Buscar();">
+    
+    <form id="formAlterar">
+        <fieldset>
+            <legend>Inisra a nova sala</legend>
+            <label>Sala:</label>
+            <input type="text" name="sala" id="pontoAlterado" value=""><br><br>
+            <input type="button" name="envio" value="Enviar" onclick="enviarForm();">
+        </fieldset>
+    </form>
 
 </body>
 </html>
