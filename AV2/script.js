@@ -6,7 +6,7 @@ function enviarForm1()
     let sala = document.getElementById("sala").value;
     let xmlHttp = new XMLHttpRequest();
   
-    xmlHttp.open("GET", "http://localhost/3DAW2022/12/inserirCarro.php?nome=" + nome +
+    xmlHttp.open("GET", "http://localhost/3DAW/AV2/Incluir.php?nome=" + nome +
         "&cpf=" + cpf + "&sala=" + sala);
     xmlHttp.send();
   
