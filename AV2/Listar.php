@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $i++;
     }
 
-    if ($result == true) { // Correção: alterado de $result=true para $result == true
+    if ($result == true) { 
         $retorno = json_encode($vetCandidatos);
     } else {
         $retorno = json_encode("Houve um erro.");
